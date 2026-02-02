@@ -82,7 +82,7 @@ public final class SpigotReflectionUtil {
         String temp;
         try {
             temp = cbPackage.replace(".", ",").split(",")[3];
-        } catch (Exception ex) {
+        } catch (Exception ignoredx) {
             temp = "";
         }
         MODIFIED_PACKAGE_NAME = temp;
@@ -171,8 +171,8 @@ public final class SpigotReflectionUtil {
             if (BLOCK_POSITION_CLASS != null) {
                 BLOCK_POSITION_CONSTRUCTOR = BLOCK_POSITION_CLASS.getConstructor(int.class, int.class, int.class);
             }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException ignored) {
+            
         }
     }
 
@@ -439,8 +439,8 @@ public final class SpigotReflectionUtil {
             if (VERSION.isNewerThanOrEquals(ServerVersion.V_1_20_5)) {
                 ITEM_STACK_OPTIONAL_STREAM_CODEC = Reflection.getField(NMS_ITEM_STACK_CLASS, STREAM_CODEC, 0).get(null);
             }
-        } catch (IllegalAccessException exception) {
-            exception.printStackTrace();
+        } catch (IllegalAccessException ignoredxception) {
+            
         }
     }
 
@@ -471,7 +471,7 @@ public final class SpigotReflectionUtil {
         if (minecraftServerInstance != null && IS_DEBUGGING != null) {
             try {
                 return (boolean) IS_DEBUGGING.invoke(minecraftServerInstance);
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException ignored) {
                 IS_DEBUGGING = null;
                 return false;
             }
@@ -489,8 +489,8 @@ public final class SpigotReflectionUtil {
                 } else {
                     MINECRAFT_SERVER_INSTANCE = f.get(server);
                 }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException ignored) {
+                
             }
         }
         return MINECRAFT_SERVER_INSTANCE;
@@ -500,8 +500,8 @@ public final class SpigotReflectionUtil {
         if (MINECRAFT_SERVER_CONNECTION_INSTANCE == null) {
             try {
                 MINECRAFT_SERVER_CONNECTION_INSTANCE = Reflection.getField(MINECRAFT_SERVER_CLASS, SERVER_CONNECTION_CLASS, 0).get(getMinecraftServerInstance(Bukkit.getServer()));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException ignored) {
+                
             }
         }
         return MINECRAFT_SERVER_CONNECTION_INSTANCE;
@@ -538,8 +538,8 @@ public final class SpigotReflectionUtil {
         Object craftEntity = null;
         try {
             craftEntity = GET_BUKKIT_ENTITY_METHOD.invoke(nmsEntity);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return (Entity) craftEntity;
     }
@@ -548,8 +548,8 @@ public final class SpigotReflectionUtil {
         final Object craftEntity = CRAFT_ENTITY_CLASS.cast(entity);
         try {
             return GET_CRAFT_ENTITY_HANDLE_METHOD.invoke(craftEntity);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -557,8 +557,8 @@ public final class SpigotReflectionUtil {
     public static Object getNMSAxisAlignedBoundingBox(Object nmsEntity) {
         try {
             return ENTITY_BOUNDING_BOX_FIELD.get(NMS_ENTITY_CLASS.cast(nmsEntity));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException ignored) {
+            
         }
         return null;
     }
@@ -571,8 +571,8 @@ public final class SpigotReflectionUtil {
         Object craftPlayer = getCraftPlayer(player);
         try {
             return GET_CRAFT_PLAYER_HANDLE_METHOD.invoke(craftPlayer);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -611,8 +611,8 @@ public final class SpigotReflectionUtil {
 
         try {
             nmsProperties = (Collection<Object>) PROPERTY_MAP_GET_METHOD.invoke(nmsPropertyMap, "textures");
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         List<TextureProperty> properties = new ArrayList<>();
 
@@ -645,15 +645,15 @@ public final class SpigotReflectionUtil {
         ReflectionObject wrapper = new ReflectionObject(playerConnection, playerConnectionClass);
         try {
             return wrapper.readObject(0, NETWORK_MANAGER_CLASS);
-        } catch (Exception ex) {
+        } catch (Exception ignoredx) {
             //Support for some weird custom plugins.
             try {
                 playerConnection = wrapper.read(0, PLAYER_CONNECTION_CLASS);
                 wrapper = new ReflectionObject(playerConnection, PLAYER_CONNECTION_CLASS);
                 return wrapper.readObject(0, NETWORK_MANAGER_CLASS);
-            } catch (Exception ex2) {
+            } catch (Exception ignoredx2) {
                 //Print the original error!
-                ex.printStackTrace();
+                
             }
         }
         return null;
@@ -687,8 +687,8 @@ public final class SpigotReflectionUtil {
             Object entityPlayer = getEntityPlayer(player);
             try {
                 return ENTITY_PLAYER_PING_FIELD.getInt(entityPlayer);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException ignored) {
+                
             }
         }
         return -1;
@@ -704,7 +704,7 @@ public final class SpigotReflectionUtil {
                         return (List<Object>) list;
                     }
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignoredx) {
                 break;
             }
         }
@@ -717,7 +717,7 @@ public final class SpigotReflectionUtil {
         ReflectionObject wrapper = new ReflectionObject(craftServer);
         try {
             return wrapper.readObject(0, MINECRAFT_SERVER_CLASS);
-        } catch (Exception ex) {
+        } catch (Exception ignoredx) {
             wrapper.readObject(0, DEDICATED_SERVER_CLASS);
         }
         return null;
@@ -727,8 +727,8 @@ public final class SpigotReflectionUtil {
         Object craftWorld = CRAFT_WORLD_CLASS.cast(world);
         try {
             return GET_CRAFT_WORLD_HANDLE_METHOD.invoke(craftWorld);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -745,8 +745,8 @@ public final class SpigotReflectionUtil {
             Object encodedDimType = CODEC_ENCODE_METHOD.invoke(dimensionTypeCodec, nbtOps, dimensionType);
             Optional<?> optionalDimType = (Optional<?>) DATA_RESULT_GET_METHOD.invoke(encodedDimType);
             return optionalDimType.orElse(null);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -768,8 +768,8 @@ public final class SpigotReflectionUtil {
                 dimensionTypeRegistry = GET_DIMENSION_TYPES.invoke(getFrozenRegistryAccess());
             }
             return (int) GET_REGISTRY_ID.invoke(dimensionTypeRegistry, dimensionType);
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
+            
         }
         return 0;
     }
@@ -779,8 +779,8 @@ public final class SpigotReflectionUtil {
         try {
             Object resourceKey = GET_DIMENSION_KEY.invoke(worldServer);
             return REGISTRY_KEY_LOCATION_FIELD.get(resourceKey).toString();
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -807,8 +807,8 @@ public final class SpigotReflectionUtil {
                 field.set(null, id + 1);
                 return id;
             }
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
+        } catch (IllegalAccessException ignoredx) {
+            
         }
         throw new IllegalStateException("Failed to generate a new unique entity ID!");
     }
@@ -816,8 +816,8 @@ public final class SpigotReflectionUtil {
     public static int getEffectId(Object nmsMobEffectList) {
         try {
             return (int) GET_MOB_EFFECT_LIST_ID_METHOD.invoke(null, nmsMobEffectList);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return -1;
     }
@@ -825,8 +825,8 @@ public final class SpigotReflectionUtil {
     public static Object getMobEffectListById(int effectID) {
         try {
             return GET_MOB_EFFECT_LIST_BY_ID_METHOD.invoke(null, effectID);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -834,8 +834,8 @@ public final class SpigotReflectionUtil {
     public static int getNMSItemId(Object nmsItem) {
         try {
             return (int) GET_ITEM_ID_METHOD.invoke(null, nmsItem);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return -1;
     }
@@ -843,8 +843,8 @@ public final class SpigotReflectionUtil {
     public static Object getNMSItemById(int id) {
         try {
             return GET_ITEM_BY_ID_METHOD.invoke(null, id);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -852,8 +852,8 @@ public final class SpigotReflectionUtil {
     public static Object createNMSItemStack(Object nmsItem, int count) {
         try {
             return NMS_ITEM_STACK_CONSTRUCTOR.newInstance(nmsItem, count);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -905,8 +905,8 @@ public final class SpigotReflectionUtil {
         int combinedID = 0;
         try {
             combinedID = (int) GET_COMBINED_ID.invoke(null, iBlockDataObj);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return combinedID;*/
     }
@@ -915,8 +915,8 @@ public final class SpigotReflectionUtil {
         Object iBlockDataObj = null;
         try {
             iBlockDataObj = GET_BY_COMBINED_ID.invoke(null, combinedID);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
 
         try {
@@ -924,8 +924,8 @@ public final class SpigotReflectionUtil {
             Object bd = (blockData.cast(GET_CRAFT_BLOCK_DATA_FROM_IBLOCKDATA.invoke(null, iBlockDataObj)));
             Method materialMethod = Reflection.getMethod(blockData, Material.class, 0);
             return new MaterialData((Material) materialMethod.invoke(bd));
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
 
         return null;
@@ -935,8 +935,8 @@ public final class SpigotReflectionUtil {
         try {
             Object nmsItem = getNMSItemById(itemID);
             return NMS_ITEM_STACK_CONSTRUCTOR.newInstance(nmsItem, count);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -947,8 +947,8 @@ public final class SpigotReflectionUtil {
                 return REGISTRY_FRIENDLY_BYTE_BUF_CONSTRUCTOR.newInstance(byteBuf, getFrozenRegistryAccess());
             }
             return NMS_PACKET_DATA_SERIALIZER_CONSTRUCTOR.newInstance(byteBuf);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -956,8 +956,8 @@ public final class SpigotReflectionUtil {
     public static Object createBlockPosition(int x, int y, int z) {
         try {
             return BLOCK_POSITION_CONSTRUCTOR.newInstance(x, y, z);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -976,8 +976,8 @@ public final class SpigotReflectionUtil {
                                     MINECRAFT_SERVER_CLASS, REGISTRY_ACCESS_FROZEN, 0)
                             .get(getMinecraftServerInstance(Bukkit.getServer()));
                 }
-            } catch (IllegalAccessException | InvocationTargetException exception) {
-                exception.printStackTrace();
+            } catch (IllegalAccessException | InvocationTargetException ignoredxception) {
+                
             }
         }
         return MINECRAFT_SERVER_REGISTRY_ACCESS;
@@ -986,8 +986,8 @@ public final class SpigotReflectionUtil {
     public static ItemStack toBukkitItemStack(Object nmsItemStack) {
         try {
             return (ItemStack) CRAFT_ITEM_STACK_AS_BUKKIT_COPY.invoke(null, nmsItemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -995,8 +995,8 @@ public final class SpigotReflectionUtil {
     public static Object toNMSItemStack(ItemStack itemStack) {
         try {
             return CRAFT_ITEM_STACK_AS_NMS_COPY.invoke(null, itemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -1008,8 +1008,8 @@ public final class SpigotReflectionUtil {
                 return READ_ITEM_STACK_IN_PACKET_DATA_SERIALIZER_METHOD.invoke(packetDataSerializer);
             }
             return STREAM_DECODER_DECODE.invoke(ITEM_STACK_OPTIONAL_STREAM_CODEC, packetDataSerializer);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -1020,8 +1020,8 @@ public final class SpigotReflectionUtil {
                 return WRITE_ITEM_STACK_IN_PACKET_DATA_SERIALIZER_METHOD.invoke(packetDataSerializer, nmsItemStack);
             }
             return STREAM_ENCODER_ENCODE.invoke(ITEM_STACK_OPTIONAL_STREAM_CODEC, packetDataSerializer, nmsItemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -1058,8 +1058,8 @@ public final class SpigotReflectionUtil {
         try (ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
              DataInputStream stream = new DataInputStream(byteStream)) {
             return readNmsNbtFromStream(stream);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+            
             return null;
         }
     }
@@ -1067,8 +1067,8 @@ public final class SpigotReflectionUtil {
     public static void writeNmsNbtToStream(Object compound, DataOutput out) {
         try {
             WRITE_NBT_TO_STREAM_METHOD.invoke(null, compound, out);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
     }
 
@@ -1079,8 +1079,8 @@ public final class SpigotReflectionUtil {
                 return READ_NBT_FROM_STREAM_METHOD.invoke(null, in, nbtAccounterUnlimitedHeap);
             }
             return READ_NBT_FROM_STREAM_METHOD.invoke(null, in);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+            
         }
         return null;
     }
@@ -1179,8 +1179,8 @@ public final class SpigotReflectionUtil {
             Iterable<Object> nmsEntitiesIterable = null;
             try {
                 nmsEntitiesIterable = (Iterable<Object>) GET_LEVEL_ENTITY_GETTER_ITERABLE_METHOD.invoke(levelEntityGetter);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+            } catch (IllegalAccessException | InvocationTargetException ignored) {
+                
             }
             List<Entity> entityList = new ArrayList<>();
             if (nmsEntitiesIterable != null) {
@@ -1216,8 +1216,8 @@ public final class SpigotReflectionUtil {
                 Object minecraftKey = NMS_MINECRAFT_KEY_CONSTRUCTOR.newInstance("minecraft", key);
                 return ParticleTypes.getByName(minecraftKey.toString());
             }
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
+            
         }
         return null;
     }
@@ -1241,8 +1241,8 @@ public final class SpigotReflectionUtil {
                 Object bukkitParticle = NMS_ENUM_PARTICLE_TO_BUKKIT_PARTICLE.invoke(null, enumParticle);
                 return (Enum<?>) bukkitParticle;
             }
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
+            
         }
         return null;
     }
@@ -1251,8 +1251,8 @@ public final class SpigotReflectionUtil {
         Object entityPlayer = getEntityPlayer(player);
         try {
             return REMOTE_CHAT_SESSION_FIELD.get(entityPlayer);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException ignored) {
+            
             return null;
         }
     }
